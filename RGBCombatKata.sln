@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RGBCombatKata", "RGBCombatKata\RGBCombatKata.csproj", "{7F110FF4-77D1-466D-ADDD-A6C68DE98D23}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RGBCombatKataTests", "RGBCombatKataTests\RGBCombatKataTests.csproj", "{43CBBF89-A671-4242-9897-30E5CFDCE9E4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{7F110FF4-77D1-466D-ADDD-A6C68DE98D23}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7F110FF4-77D1-466D-ADDD-A6C68DE98D23}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7F110FF4-77D1-466D-ADDD-A6C68DE98D23}.Release|Any CPU.Build.0 = Release|Any CPU
+		{43CBBF89-A671-4242-9897-30E5CFDCE9E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43CBBF89-A671-4242-9897-30E5CFDCE9E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43CBBF89-A671-4242-9897-30E5CFDCE9E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43CBBF89-A671-4242-9897-30E5CFDCE9E4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
