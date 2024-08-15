@@ -5,98 +5,136 @@ namespace RGBCombatKataTests;
 
 public class Tests
 {
-    private Character character;
+    private Character _character;
     [SetUp]
     public void Setup()
     {
-        character = new Character();
+        _character = new Character();
     }
 
     [Test]
     public void CharacterHas1000HealthToStart()
     {
-        Assert.That(character.GetHealth(), Is.EqualTo(1000));
+        Assert.That(_character.Health, Is.EqualTo(1000));
     }
     
     [Test]
     public void CharacterDefaultsToAlive()
     {
-        Assert.That(character.IsCharacterAlive(), Is.True);
+        Assert.That(_character.IsAlive, Is.True);
     }
     
     [Test]
     public void CharacterIsDeadWhenHealthIsZero()
     {
-        character.TakeDamage(1000);
-        Assert.That(character.IsCharacterAlive(), Is.False);
+        _character.TakeDamage(1000);
+        Assert.That(_character.IsAlive, Is.False);
     }
     
     [Test]
     public void CharacterCannotDealDamageToItself()
     {
-        character.dealDamage(character, 200);
-        Assert.That(character.GetHealth(), Is.EqualTo(1000));
+        _character.DealDamage(_character, 200);
+        Assert.That(_character.Health, Is.EqualTo(1000));
     }
     
     [Test]
     public void CharacterCanDealDamageToAnotherCharacter()
     {
         var target = new Character();
-        character.dealDamage(target, 200);
-        Assert.That(target.GetHealth(), Is.EqualTo(800));
+        _character.DealDamage(target, 200);
+        Assert.That(target.Health, Is.EqualTo(800));
     }
     
     [Test]
     public void CharacterCanDealDamageToAnotherCharacterUntilDead()
     {
         var target = new Character();
-        character.dealDamage(target, 1000);
-        Assert.That(target.IsCharacterAlive(), Is.False);
+        _character.DealDamage(target, 1000);
+        Assert.That(target.IsAlive, Is.False);
     }
     
     [Test]
     public void CharacterCanDealDamageToAnotherCharacterMultipleTimes()
     {
         var target = new Character();
-        character.dealDamage(target, 200);
-        character.dealDamage(target, 200);
-        Assert.That(target.GetHealth(), Is.EqualTo(600));
+        _character.DealDamage(target, 200);
+        _character.DealDamage(target, 200);
+        Assert.That(target.Health, Is.EqualTo(600));
     }
     
     [Test]
     public void CharacterCanDealDamageToAnotherCharacterMultipleTimesUntilDead()
     {
         var target = new Character();
-        character.dealDamage(target, 200);
-        character.dealDamage(target, 200);
-        character.dealDamage(target, 200);
-        character.dealDamage(target, 200);
-        character.dealDamage(target, 200);
-        Assert.That(target.IsCharacterAlive(), Is.False);
+        _character.DealDamage(target, 200);
+        _character.DealDamage(target, 200);
+        _character.DealDamage(target, 200);
+        _character.DealDamage(target, 200);
+        _character.DealDamage(target, 200);
+        Assert.That(target.IsAlive, Is.False);
     }
     
     [Test]
     public void CharacterCanHealItself()
     {
-        character.TakeDamage(500);
-        character.Heal(200);
-        Assert.That(character.GetHealth(), Is.EqualTo(700));
+        _character.TakeDamage(500);
+        _character.Heal(200);
+        Assert.That(_character.Health, Is.EqualTo(700));
     }
     
     [Test]
     public void DeadCharacterCannotBeHealed()
     {
-        character.TakeDamage(1000);
-        character.Heal(200);
-        Assert.That(character.GetHealth(), Is.EqualTo(0));
+        _character.TakeDamage(1000);
+        _character.Heal(200);
+        Assert.That(_character.Health, Is.EqualTo(0));
     }
     
     [Test]
     public void HealthCannotBeNegative()
     {
-        character.TakeDamage(2000);
-        Assert.That(character.GetHealth(), Is.EqualTo(0));
+        _character.TakeDamage(2000);
+        Assert.That(_character.Health, Is.EqualTo(0));
     }
-    
-    
+
+    [Test]
+    public void AllCharactersHaveLevelStartingAt1()
+    {
+        Assert.That(_character.Level, Is.EqualTo(1));
+    }
+
+    [Test]
+    public void CharacterCannotHaveHealthGreaterThan1000UnlessLevelGreaterThan5()
+    {
+        _character.Heal(200);
+        Assert.That(_character.Health, Is.EqualTo(1000));
+    }
+
+    [Test]
+    public void MaxHealthIncreasesTo1500AtLevel6()
+    {
+        for(var i = 0; i < 5; i++)
+        {
+            _character.LevelUp();
+        }
+        
+        _character.Heal(200);
+        Assert.That(_character.MaxHealth, Is.EqualTo(1500));
+    }
+
+    [Test]
+    public void DamageIncreasedByFiftyPercentWhen5OrMoreLevelsAboveTarget()
+    {
+        var target = new Character();
+        for(var i = 0; i < 5; i++)
+        {
+            _character.LevelUp();
+        }
+        
+        _character.DealDamage(target, 200);
+        Assert.That(target.Health, Is.EqualTo(700));
+    }
+
+
 }

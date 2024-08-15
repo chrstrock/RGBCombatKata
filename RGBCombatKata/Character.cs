@@ -2,20 +2,15 @@ namespace RGBCombatKata;
 
 public class Character
 {
-    private int Health = 1000;
-    private bool IsAlive  = true;
-    
-    public int GetHealth()
-    {
-        return Health;
-    }
-    
-    public bool IsCharacterAlive()
-    {
-        return IsAlive;
-    }
-    
-    public void TakeDamage(int damage)
+    public double Health { get; private set; } = 1000;
+
+    public bool IsAlive { get; private set; } = true;
+
+    public int Level { get; private set; } = 1;
+
+    public int MaxHealth { get; private set; } = 1000;
+
+    public void TakeDamage(double damage)
     {
         if(damage > Health)
         {
@@ -29,12 +24,16 @@ public class Character
     }
     
     //characters can deal damage to other characters
-    public void dealDamage(Character target, int damage)
+    public void DealDamage(Character target, double damage)
     {
         //character can not be damaged by itself
         if (this == target)
         {
             return;
+        }
+        if(Level - target.Level >= 5)
+        {
+            damage *= 1.5;
         }
         
         target.TakeDamage(damage);
@@ -48,7 +47,26 @@ public class Character
         {
             return;
         }
-        Health += healthPoints;
+        //health can't go beyond 1000 when adding healthPoints if level is less than 6
+        if (Health + healthPoints > 1000 && Level < 6)
+        {
+            Health = 1000;
+        }
+        else
+        {
+            Health += healthPoints;
+        }
         
     }
+    
+    public void LevelUp()
+    {
+        Level++;
+        if (Level == 6)
+        {
+            MaxHealth = 1500;
+        }
+    }
+    
+    
 }
