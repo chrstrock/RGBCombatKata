@@ -2,17 +2,38 @@ namespace RGBCombatKata;
 
 public class Character
 {
-    public double Health { get; private set; } = 1000;
+    private double _health = 1000;
+    private bool _isAlive = true;
+    private int _level = 1;
+    private int _maxHealth = 1000;
 
-    public bool IsAlive { get; private set; } = true;
+    public double Health
+    {
+        get => _health;
+        private set => _health = value;
+    }
 
-    public int Level { get; private set; } = 1;
+    public bool IsAlive
+    {
+        get => _isAlive;
+        private set => _isAlive = value;
+    }
 
-    public int MaxHealth { get; private set; } = 1000;
+    public int Level
+    {
+        get => _level;
+        private set => _level = value;
+    }
+
+    public int MaxHealth
+    {
+        get => _maxHealth;
+        private set => _maxHealth = value;
+    }
 
     public void TakeDamage(double damage)
     {
-        if(damage > Health)
+        if (damage > Health)
         {
             damage = Health;
         }
@@ -20,45 +41,37 @@ public class Character
         if (Health <= 0)
         {
             IsAlive = false;
+            Health = 0;
         }
     }
-    
-    //characters can deal damage to other characters
+
     public void DealDamage(Character target, double damage)
     {
-        //character can not be damaged by itself
         if (this == target)
         {
             return;
         }
-        if(Level - target.Level >= 5)
-        {
-            damage *= 1.5;
-        }
         
+        damage *= Level - target.Level >= 5 ? 1.5 : target.Level - Level >= 5 ? 0.5 : 1;
         target.TakeDamage(damage);
-        
     }
 
     public void Heal(int healthPoints)
     {
-        //dead characters can not be healed
         if (!IsAlive)
         {
             return;
         }
-        //health can't go beyond 1000 when adding healthPoints if level is less than 6
-        if (Health + healthPoints > 1000 && Level < 6)
+        if (Health + healthPoints > MaxHealth)
         {
-            Health = 1000;
+            Health = MaxHealth;
         }
         else
         {
             Health += healthPoints;
         }
-        
     }
-    
+
     public void LevelUp()
     {
         Level++;
@@ -67,6 +80,4 @@ public class Character
             MaxHealth = 1500;
         }
     }
-    
-    
 }
